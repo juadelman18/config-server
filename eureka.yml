@@ -1,35 +1,16 @@
-server:
-  port: ${EUREKA_SERVER_PORT:1111}   # HTTP port
-  
-# Configure this Discovery Server
 ---
 spring:
   profiles: cloudpeers
 eureka:
- instance:
-    hostname: localhost
-    prefer-ip-address: true
   client:
     serviceUrl:
-      registerWithEureka: false
-      fetchRegistry: false
-      #defaultZone: ${vcap.services.${PREFIX:}othereureka.credentials.uri:http://${PREFIX:}othereureka.${application.domain:cfapps.io}}/eureka/
-      defaultZone: http://localhost:8761/eureka/
-  server:
-    enableSelfPreservation: false
+      defaultZone: ${vcap.services.${PREFIX:}othereureka.credentials.uri:http://${PREFIX:}othereureka.${application.domain:cfapps.io}}/eureka/
+
 ---
-# Discovery Server Dashboard uses FreeMarker.  Don't want Thymeleaf templates
 spring:
-  thymeleaf:
-    enabled: false     # Disable Thymeleaf 
-    profiles: docker
-    
-      
- logging:
-  file: logs/${spring.application.name}.log
-  level:
-    com.netflix.discovery: 'OFF'
-    org.springframework.cloud: 'INFO'
-    org.springframework.web: 'INFO'
-    
+  profiles: docker
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
      
